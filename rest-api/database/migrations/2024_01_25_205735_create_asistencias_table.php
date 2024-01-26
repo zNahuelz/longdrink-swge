@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('asistencias', function (Blueprint $table) {
             $table->id('cod_asistencia');
             $table->timestamp('fecha_asistencia');
-            $table->time('hora_llegada'); //Timestamp? **Consultar.
+            $table->time('hora_llegada');
             $table->boolean('estado')->default(true);
             $table->unsignedBigInteger('cod_inscripcion');
             $table->foreign('cod_inscripcion')->references('cod_inscripcion')->on('inscripciones');

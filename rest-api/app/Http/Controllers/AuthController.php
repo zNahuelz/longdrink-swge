@@ -11,10 +11,6 @@ use Illuminate\Validation\Rule;
 class AuthController extends Controller
 {
     //TODO: A modificar segun reglas del negocio. (Inscripcion -> Registro de alumno | Contratación -> Registro Profesor.)
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login','register','refresh','logout']]);
-    }
 
     public function register(Request $request)
     {
