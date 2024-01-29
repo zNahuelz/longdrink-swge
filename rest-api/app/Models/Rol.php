@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Rol extends Model
 {
@@ -16,4 +17,9 @@ class Rol extends Model
     protected $fillable = [ //Definir atributos que pueden ser asignados.
         'nombre'
     ];
+
+    public function usuario() : HasMany
+    {
+        return $this->hasMany(Usuario::class, 'cod_rol', 'cod_rol');
+    }
 }

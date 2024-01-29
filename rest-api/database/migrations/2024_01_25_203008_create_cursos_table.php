@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('cod_curso');
             $table->string('nombre',50);
             $table->string('descripcion',100);
-            $table->double(5,2);
+            $table->double('mensualidad',5,2);
             $table->tinyInteger('duracion',false,true);
             $table->boolean('visibilidad')->default(true);
             $table->text('imagen');

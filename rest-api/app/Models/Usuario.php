@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -49,5 +51,22 @@ class Usuario extends Authenticatable implements JWTSubject
             'activo' => $this->activo,
             'cod_rol' => $this->cod_rol //Cambiar por tipo de rol directamente una vez asignadas relaciones.
         ];
+    }
+
+    //Relations ...
+
+    public function rol() : BelongsTo
+    {
+        return $this->belongsTo(Rol::class, 'cod_rol', 'cod_rol');
+    }
+
+    public function alumno(): HasOne
+    {
+        return $this->hasOne(Alumno::class,'cod_usuario', 'cod_usuario');
+    }
+
+    public function profesor() : HasOne
+    {
+        return $this->hasOne(Profesor::class,'cod_usuario', 'cod_usuario');
     }
 }
