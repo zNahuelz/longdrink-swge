@@ -39,16 +39,17 @@ export class LoginCardComponent {
   );
 
   onSubmit(){
-    const correo = this.emailCtrl.value
-    const correoValido = this.emailCtrl.valid
-    const contra = this.passwordCtrl.value
-    this.loginInfo.update((prevState) =>{
-      return {
-        email: correo,
-        password: contra
-      }
-    })
-    console.log(this.loginInfo())
-    console.log(correoValido)
+    const emailPassValid = this.emailCtrl.valid && this.passwordCtrl.valid;
+
+    if (emailPassValid){
+      this.loginInfo.update((prevState) =>{
+        return {
+          email: this.emailCtrl.value,
+          password: this.passwordCtrl.value
+        }
+      })
+
+      alert(`Excelente, ha iniciado sesión con estos datos ->\n Email: ${this.loginInfo().email}\n Contraseña: ${this.loginInfo().password}`)
+    }
   }
 }
