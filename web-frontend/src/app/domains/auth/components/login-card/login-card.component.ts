@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, SimpleChanges, signal } from '@angular/core';
+import { Component, SimpleChanges, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '../../../../model/login.model';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-card',
@@ -11,6 +13,8 @@ import { Login } from '../../../../model/login.model';
   styleUrl: './login-card.component.css'
 })
 export class LoginCardComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
   loginInfo = signal<Login>({
     email: '',
     password: ''
@@ -38,18 +42,25 @@ export class LoginCardComponent {
     }
   );
 
-  onSubmit(){
+  onSubmit(event: Event){
+    event.preventDefault();
     const emailPassValid = this.emailCtrl.valid && this.passwordCtrl.valid;
 
     if (emailPassValid){
-      this.loginInfo.update((prevState) =>{
+/*       this.loginInfo.update((prevState) =>{
         return {
           email: this.emailCtrl.value,
           password: this.passwordCtrl.value
         }
+      }) */
+      let email = this.emailCtrl.value;
+      let password = this.passwordCtrl.value;
+      this.authService.login({email,password}).subscribe(() =>{
+        alert('Inicio de Sesión exitoso!');
+        this.router.navigate(['/test']);
       })
 
-      alert(`Excelente, ha iniciado sesión con estos datos ->\n Email: ${this.loginInfo().email}\n Contraseña: ${this.loginInfo().password}`)
+      //alert(`Excelente, ha iniciado sesión con estos datos ->\n Email: ${this.loginInfo().email}\n Contraseña: ${this.loginInfo().password}`)
     }
   }
 }

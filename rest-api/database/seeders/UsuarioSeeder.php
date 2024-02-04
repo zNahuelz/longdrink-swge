@@ -15,7 +15,7 @@ class UsuarioSeeder extends Seeder
     public function run(): void
     {
         Usuario::create([ 'nombre_usuario' => 'ADM_admin',
-        'contrasena' => Hash::make('admin'),
+        'password' => Hash::make('admin'),
         'email' => 'administrador@longdrink.pe',
         'activo' => true,
         'cod_rol' => 1]);

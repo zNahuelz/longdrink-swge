@@ -19,4 +19,11 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('register', [AuthController::class, 'register']);
+Route::group([
+    'prefix' => '/auth'
+], function ($router){
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/profile',[AuthController::class, 'profile']);
+});
+

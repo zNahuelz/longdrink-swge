@@ -22,18 +22,18 @@ class Usuario extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'nombre_usuario',
-        'contrasena',
+        'password',
         'email',
         'activo',
         'cod_rol'
     ];
 
     protected $hidden = [
-        'contrasena'
+        'password'
     ];
 
     protected $casts = [
-        'contrasena' => 'hashed'
+        'password' => 'hashed'
     ];
 
     //JWT...
@@ -69,4 +69,5 @@ class Usuario extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Profesor::class,'cod_usuario', 'cod_usuario');
     }
+
 }

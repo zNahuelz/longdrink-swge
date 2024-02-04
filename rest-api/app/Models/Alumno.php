@@ -27,7 +27,7 @@ class Alumno extends Model
 
     protected function usuario() : BelongsTo
     {
-        return $this->belongsTo(Usuario::class,'cod_usario','cod_usuario');
+        return $this->belongsTo(Usuario::class,'cod_usuario','cod_usuario');
     }
 
     protected function pago() : HasMany
