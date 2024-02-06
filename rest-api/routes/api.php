@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfesorController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +29,9 @@ Route::group([
     Route::get('/profile',[AuthController::class, 'profile']);
 });
 
+
+Route::group([
+    'prefix' => '/profesor'
+], function ($router){
+    Route::post('/contratar', [ProfesorController::class, 'contratarProfesor'])->middleware(AdminMiddleware::class);
+});
