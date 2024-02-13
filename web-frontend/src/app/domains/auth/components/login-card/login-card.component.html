@@ -10,9 +10,8 @@
         <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Correo electrónico</label>
         <div class="mt-2">
           <input [formControl]="emailCtrl" id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          @if(!emailCtrl.valid && emailCtrl.value !== ''){
-            <span for="email" class="block font-bold text-sm font-medium leading-6 text-red-900">Correo electrónico no Válido</span>
-          }
+          <span for="email" class="block font-bold text-sm font-medium leading-6 text-red-900" [class.invisible]="!validatingEmail()">Correo electrónico no Válido</span>
+          
         </div>
       </div>
 
@@ -25,9 +24,8 @@
         </div>
         <div class="mt-2">
           <input  [formControl]="passwordCtrl" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          @if(!passwordCtrl.valid&& passwordCtrl.value.length < 5  && passwordCtrl.value !== '' ){
-            <span for="email" class="block font-bold text-sm font-medium leading-6 text-red-900">Contraseña no Válida</span>
-          }
+          <span for="email" class="block font-bold text-sm font-medium leading-6 text-red-900" [class.invisible]="!validatingPassword()">Contraseña no Válida</span>
+
         </div>
       </div>
 

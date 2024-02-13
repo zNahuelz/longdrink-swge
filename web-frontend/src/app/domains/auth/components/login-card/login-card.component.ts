@@ -15,6 +15,9 @@ import { Router } from '@angular/router';
 export class LoginCardComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  emailIsValid = signal(false);
+  passwordIsValid = signal(false);
+
   loginInfo = signal<Login>({
     email: '',
     password: ''
@@ -63,4 +66,13 @@ export class LoginCardComponent {
       //alert(`Excelente, ha iniciado sesión con estos datos ->\n Email: ${this.loginInfo().email}\n Contraseña: ${this.loginInfo().password}`)
     }
   }
+
+  validatingEmail(){
+    return !this.emailCtrl.valid && this.emailCtrl.value !== ''
+  }
+
+  validatingPassword(){
+    return (!this.passwordCtrl.valid) && (this.passwordCtrl.value.length < 5)  && (this.passwordCtrl.value !== '');
+  }
+
 }
