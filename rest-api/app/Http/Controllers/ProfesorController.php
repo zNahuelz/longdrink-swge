@@ -23,36 +23,36 @@ class ProfesorController extends Controller
             'fecha_contratacion' => ['required','date','date_format:Y-m-d'], //** Vease https://www.php.net/manual/en/class.datetimeinterface.php
             'email' => ['required','email','max:80',Rule::unique('usuarios','email')]
         ]);
-        $nombreUsuario = strtoupper(substr($request->nombre, 0, 1))
+        $username = strtoupper(substr($request->nombre, 0, 1))
         .strtoupper(substr($request->apellido_paterno, 0, 1))
         .strtoupper(substr($request->apellido_materno, 0, 1))
         .$request->dni;
 
 
-        $contrasena = Hash::make(strtoupper(substr($request->nombre, 0, 1)).$request->dni);
+        $password = Hash::make(strtoupper(substr($request->nombre, 0, 1)).$request->dni);
         $rol = Rol::where('nombre','PROFESOR')->first();
 
-        $usuario = Usuario::create([
-            'nombre_usuario' => $nombreUsuario,
-            'password' => $contrasena,
+        $newUser = Usuario::create([
+            'nombre_usuario' => $username,
+            'password' => $password,
             'email' => strtoupper($request->email),
             'activo' => true,
             'cod_rol' => $rol->cod_rol
         ]);
 
-        $profesor = Profesor::create([
+        $teacherData = Profesor::create([
             'nombre' => strtoupper($request->nombre),
             'apellido_paterno' => strtoupper($request->apellido_paterno),
             'apellido_materno' => strtoupper($request->apellido_materno),
             'dni' => $request->dni,
             'telefono' => $request->telefono,
             'fecha_contratacion' => $request->fecha_contratacion,
-            'cod_usuario' => $usuario->cod_usuario
+            'cod_usuario' => $newUser->cod_usuario
         ]);
 
         return response()->json([
-            'profesor' => $profesor,
-            'usuario' => $usuario
+            'profesor' => $teacherData,
+            'usuario' => $newUser
         ],201);
     }
 }

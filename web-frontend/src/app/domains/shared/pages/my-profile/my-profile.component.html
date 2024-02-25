@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="card me-5 ms-5 mt-5 border-black">
+    <div class="card-body">
+      <div class="row mt-3 ms-2">
+        <div class="col">
+          <h3>Mi Perfil</h3>
+        </div>
+      </div>
+      @if(loaded){
+      <div class="row ms-2 mt-3 me-2">
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="usernameCtrlV" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="usernameCtrl" [value]="user.nombre_usuario" [disabled]="true">
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="emailCtrlV" class="form-label">E-Mail</label>
+            <input type="email" class="form-control" id="emailCtrlV" [value]="user.email" [disabled]="true">
+          </div>
+        </div>
+      </div>
+
+      <div class="row ms-2 me-2">
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="rolCtrl" class="form-label">Rol</label>
+            <input type="text" class="form-control" id="rolCtrl" [value]="user.rol.nombre" [disabled]="true">
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="registerDateCtrl" class="form-label">Fecha de Registro</label>
+            <input type="date" class="form-control" id="registerDateCtrl" [value]="user.created_at | date: 'yyyy-MM-dd'" [disabled]="true">
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3 ms-2">
+        <div class="col">
+          <h4>Seguridad</h4>
+        </div>
+      </div>
+
+      <form [formGroup]="securityForm">
+      <div class="row ms-2 me-2 mt-3">
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="emailCtrl" class="form-label">E-Mail</label>
+            <input type="email" class="form-control" id="emailCtrl" formControlName="emailCtrl">
+            @if(!disableForm){
+              <span class="fw-lighter text-center mb-3 text-danger" [class.invisible]="validateEmail()">Formato de e-mail incorrecto. De continuar, no se modificará su e-mail.</span>
+            }
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="oldPasswordCtrl" class="form-label">Contraseña Actual</label>
+            <input type="password" class="form-control" id="oldPasswordCtrl" formControlName="oldPasswordCtrl">
+            @if(!disableForm){
+              <span class="fw-lighter text-center mb-3 text-danger" [class.invisible]="validateOldPassword()">Debe ingresar su contraseña actual.</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="row ms-2 me-2">
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="newPasswordCtrl1" class="form-label">Nueva Contraseña</label>
+            <input type="password" class="form-control" id="newPasswordCtrl1" formControlName="newPasswordCtrl1">
+            @if(!disableForm){
+              <span class="fw-lighter text-center mb-3 text-danger" [class.invisible]="validateNewPassword1()">La nueva contraseña debe tener entre 5 y 20 carácteres.</span>
+            }
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="newPasswordCtrl2" class="form-label">Confirmar Contraseña</label>
+            <input type="password" class="form-control" id="newPasswordCtrl2" formControlName="newPasswordCtrl2">
+            @if(!disableForm){
+              <span class="fw-lighter text-center mb-3 text-danger" [class.invisible]="validateNewPassword2()">La nueva contraseña debe tener entre 5 y 20 carácteres.<br></span>
+              <span class="fw-lighter text-center mb-3 text-danger" [class.invisible]="validatePasswordEquality()">Las dos contraseñas deben coincidir.</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="row ms-2 me-2">
+
+        <div class="col text-end">
+          <button class="btn btn-secondary bg-gradient fw-bold me-1" (click)="enableForm()">EDITAR</button>
+          <button class="btn btn-success bg-gradient fw-bold" type="submit" [disabled]="disableForm" (click)="onSubmit()">ACTUALIZAR</button>
+        </div>
+      </div>
+    </form>
+    }
+    </div>
+  </div>
+</div>

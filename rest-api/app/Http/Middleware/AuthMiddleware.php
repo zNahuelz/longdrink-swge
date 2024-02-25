@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,14 +18,11 @@ class AdminMiddleware
     {
         if(Auth::check())
         {
-            $tipoUsuario = Auth::user()->rol->nombre;
-            if($tipoUsuario == 'ADMINISTRADOR'){
-                return $next($request);
-            }
+            return $next($request);
         }
         return response()->json([
             'status' => 'ERROR',
-            'message' => 'Permisos insuficientes para realizar acción o token invalido.'
+            'message' => 'Token invalido o expirado.'
         ],401);
     }
 }

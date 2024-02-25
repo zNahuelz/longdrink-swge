@@ -1,4 +1,88 @@
 /* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.text-purple{
+  color:#6f42c1;
+}
+
+.bg-purple{
+  background-color: #6f42c1;
+}
+
+.text-indigo{
+  color:#6610f2;
+}
+
+.bg-indigo{
+  background-color: #6610f2;
+}
+
+.text-blue{
+  color:#0d6efd;
+}
+
+.bg-blue{
+  background-color: #0d6efd;
+}
+
+.text-pink{
+  color:#d63384;
+}
+
+.bg-pink{
+  background-color: #d63384;
+}
+
+.text-red{
+  color:#dc3545;
+}
+
+.bg-red{
+  background-color: #dc3545;
+}
+
+.text-orange{
+  color:#fd7e14;
+}
+
+.bg-orange{
+  background-color: #fd7e14;
+}
+
+.text-yellow{
+  color:#ffc107;
+}
+
+.bg-yellow{
+  background-color: #ffc107;
+}
+
+.text-green{
+  color:#198754;
+}
+
+.bg-green{
+  background-color: #198754;
+}
+
+.text-teal{
+  color:#20c997;
+}
+
+.bg-teal{
+  background-color: #20c997;
+}
+
+.text-cyan{
+  color:#0dcaf0;
+}
+
+.bg-cyan{
+  background-color: #0dcaf0;
+}
+
+.text-gray{
+  color:#adb5bd;
+}
+
+.bg-gray{
+  background-color: #adb5bd;
+}

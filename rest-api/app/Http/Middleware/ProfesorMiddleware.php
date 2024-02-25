@@ -24,8 +24,8 @@ class ProfesorMiddleware
             }
         }
         return response()->json([
-            'estado' => 'ERROR',
-            'mensaje' => 'Permisos insuficientes para realizar acción o token invalido.'
+            'status' => 'ERROR',
+            'message' => 'Permisos insuficientes para realizar acción o token invalido.'
         ],401);
     }
 }

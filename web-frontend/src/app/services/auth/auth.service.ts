@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { Login } from '../../model/login.model';
 import { jwtDecode } from 'jwt-decode';
 import { DOCUMENT } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class AuthService {
           this.iniciarSesion(user.email, JSON.stringify(tokens))
         ),
         catchError((error: any) =>{
-          alert('Inicio de sesión fallido!')
+          Swal.fire('Ups!','Credenciales incorrectas. Inicio de sesión fallido.','warning')
           return error;
         })
       );
@@ -70,5 +71,9 @@ export class AuthService {
 
     const fechaActual = new Date().getTime();
     return fechaExpiracion < fechaActual;
+  }
+
+  updateCredentials(payload: any): Observable<any>{
+    return this.http.post('http://127.0.0.1:8000/api/auth/update_credentials',payload);
   }
 }
