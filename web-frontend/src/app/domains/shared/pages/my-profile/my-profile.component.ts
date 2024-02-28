@@ -102,9 +102,9 @@ export class MyProfileComponent implements OnInit {
 
   validateOldPassword(){
     return (this.securityForm.get('oldPasswordCtrl')?.valid) ||
-     (this.securityForm.get('oldPasswordCtrl')?.value.lenght >=5) ||
-      (this.securityForm.get('oldPasswordCtrl')?.value.lenght <= 20) ||
-       (this.securityForm.get('oldPasswordCtrl')?.value != '');
+    (this.securityForm.get('oldPasswordCtrl')?.value.lenght >=5) ||
+    (this.securityForm.get('oldPasswordCtrl')?.value.lenght <= 20) ||
+    (this.securityForm.get('oldPasswordCtrl')?.value != '');
   }
 
   validateNewPassword1(){

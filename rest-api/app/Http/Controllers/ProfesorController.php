@@ -22,6 +22,10 @@ class ProfesorController extends Controller
             'telefono' => ['required','regex:/^[1-9]\d{8}$/'],
             'fecha_contratacion' => ['required','date','date_format:Y-m-d'], //** Vease https://www.php.net/manual/en/class.datetimeinterface.php
             'email' => ['required','email','max:80',Rule::unique('usuarios','email')]
+        ],
+        [
+            'dni.unique' => 'Ups! El DNI ingresado ya se encuentra en uso.',
+            'email.unique' => 'Ups! El correo electrónico ingresado ya se encuentra en uso.'
         ]);
         $username = strtoupper(substr($request->nombre, 0, 1))
         .strtoupper(substr($request->apellido_paterno, 0, 1))
@@ -54,5 +58,11 @@ class ProfesorController extends Controller
             'profesor' => $teacherData,
             'usuario' => $newUser
         ],201);
+    }
+
+    public function getTeachers()
+    {
+        $teachers = Profesor::paginate(30);
+        return response()->json($teachers);
     }
 }

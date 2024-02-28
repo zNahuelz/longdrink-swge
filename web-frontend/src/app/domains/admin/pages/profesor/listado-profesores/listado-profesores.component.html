@@ -1,0 +1,39 @@
+<div class="ms-2 me-2 mt-4">
+  <h3>Listado de Docentes</h3>
+  <hr>
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>AP. PATERNO</th>
+          <th>AP. MATERNO</th>
+          <th>NOMBRES</th>
+          <th>DNI</th>
+          <th>CELULAR</th>
+          <th>HERRAMIENTAS</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of profesores; track p.cod_profesor) {
+          <tr>
+            <td>{{p.cod_profesor}}</td>
+            <td>{{p.apellido_paterno}}</td>
+            <td>{{p.apellido_materno}}</td>
+            <td>{{p.nombre}}</td>
+            <td>{{p.dni}}</td>
+            <td>{{p.telefono}}</td>
+            <td>
+              <button class="btn btn-sm btn-primary bg-gradient fw-bold"><i class="bi bi-info-circle"></i></button>
+              <button class="btn btn-sm btn-success bg-gradient fw-bold ms-1"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-danger bg-gradient fw-bold ms-1"><i class="bi bi-trash-fill"></i></button>
+            </td>
+          </tr>
+        } @empty {
+          <h1>VACIÓ</h1>
+        }
+
+      </tbody>
+    </table>
+  </div>
+</div>

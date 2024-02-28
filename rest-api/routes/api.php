@@ -36,4 +36,5 @@ Route::group([
     'prefix' => '/profesor'
 ], function ($router){
     Route::post('/contratar', [ProfesorController::class, 'contratarProfesor'])->middleware(AdminMiddleware::class);
+    Route::get('/listar', [ProfesorController::class, 'getTeachers'])->middleware(AdminMiddleware::class);
 });
