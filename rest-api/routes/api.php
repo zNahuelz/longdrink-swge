@@ -33,8 +33,10 @@ Route::group([
 
 
 Route::group([
-    'prefix' => '/profesor'
+    'prefix' => '/profesor',
+    'middleware' => AdminMiddleware::class,
 ], function ($router){
-    Route::post('/contratar', [ProfesorController::class, 'contratarProfesor'])->middleware(AdminMiddleware::class);
-    Route::get('/listar', [ProfesorController::class, 'getTeachers'])->middleware(AdminMiddleware::class);
+    Route::post('/contratar', [ProfesorController::class, 'contratarProfesor']);
+    Route::get('/listar', [ProfesorController::class, 'getTeachers']);
+    Route::get('/{cod}', [ProfesorController::class, 'getTeacher']);
 });

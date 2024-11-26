@@ -62,7 +62,21 @@ class ProfesorController extends Controller
 
     public function getTeachers()
     {
-        $teachers = Profesor::paginate(30);
+        $teachers = Profesor::paginate(1);
         return response()->json($teachers);
+    }
+
+    public function getTeacher($cod)
+    {
+        $teacher = Profesor::find($cod);
+        if($teacher)
+        {
+            $teacher['usuario'];
+            return response()->json($teacher);
+        }
+        else
+        {
+            return response()->json(['message' => 'Ups! Docente con ID '.$cod.' no encontrado.'],404);
+        }
     }
 }
