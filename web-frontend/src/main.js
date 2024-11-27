@@ -2,17 +2,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootswatch/dist/spacelab/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../node_modules/@popperjs/core/dist/umd/popper.min';
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../node_modules/notivue/dist/core/animations.css';
+import '../node_modules/notivue/dist/Notifications/notifications.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 
-import App from './App.vue'
-import router from './router'
+import {createApp} from 'vue';
+import {createPinia} from 'pinia';
+
+import App from './App.vue';
+import router from './router';
+import VueCookies from 'vue-cookies';
+import {createNotivue} from "notivue";
 
 const app = createApp(App)
+const notivue = createNotivue();
 
 app.use(createPinia())
 app.use(router)
+app.use(VueCookies)
+app.use(notivue)
 
 app.mount('#app')

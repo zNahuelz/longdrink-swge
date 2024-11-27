@@ -15,10 +15,13 @@
     "bootstrap-icons": "^1.11.3",
     "bootswatch": "^5.3.3",
     "jose": "^5.9.6",
+    "jwt-decode": "^4.0.0",
+    "notivue": "^2.4.5",
     "pinia": "^2.2.6",
     "sweetalert2": "^11.14.5",
     "vee-validate": "^4.14.7",
     "vue": "^3.5.12",
+    "vue-cookies": "^1.8.4",
     "vue-router": "^4.4.5",
     "yup": "^1.4.0"
   },
