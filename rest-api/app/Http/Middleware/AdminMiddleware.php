@@ -18,13 +18,12 @@ class AdminMiddleware
     {
         if(Auth::check())
         {
-            $tipoUsuario = Auth::user()->rol->nombre;
-            if($tipoUsuario == 'ADMINISTRADOR'){
+            $userRole = Auth::user()->role->name;
+            if($userRole == 'ADMINISTRADOR'){
                 return $next($request);
             }
         }
         return response()->json([
-            'status' => 'ERROR',
             'message' => 'Permisos insuficientes para realizar acción o token invalido.'
         ],401);
     }

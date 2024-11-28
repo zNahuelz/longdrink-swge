@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,24 +15,22 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre_usuario' => ['required','max:15',Rule::unique('usuarios','nombre_usuario')],
+            'username' => ['required','max:20',Rule::unique('users','username')],
             'password' => ['required','min:5','max:20'],
-            'email' => ['required','max:80','email'],
-            'cod_rol' => ['required']
+            'email' => ['required','max:50','email'],
+            'role_id' => ['required']
         ]);
 
-        $user = Usuario::create([
-            'nombre_usuario' => $request->nombre_usuario,
+        $user = User::create([
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'email' => $request->email,
-            'activo' => true,
-            'cod_rol' => $request->cod_rol
+            'role_id' => $request->role_id
         ]);
 
         $token = Auth::guard('api')->login($user);
 
         return response()->json([
-            'status' => 'OK',
             'message' => 'Usuario registrado con exito',
             'user' => $user,
             'auth' => [
@@ -45,24 +43,22 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => ['required','string','email'],
-            'password' => ['required','string']
+            'username' => ['required','string','max:20'],
+            'password' => ['required','string','max:20']
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         $token = Auth::guard('api')->attempt($credentials);
         if(!$token)
         {
             return response()->json([
-                'status' => 'ERROR',
                 'message' => 'Intento de inicio de sesión fallido.'
             ],401);
         }
 
         $user = Auth::guard('api')->user();
         return response()->json([
-            'status' => 'OK',
             'auth' => [
                 'token' => $token,
                 'type' => 'Bearer'
@@ -81,7 +77,8 @@ class AuthController extends Controller
             ],401);
         }
 
-        $rol = $user->rol->setHidden(['cod_rol','created_at','updated_at']);
+        $role = $user->role->setHidden(['created_at','updated_at']);
+        $user->setHidden(['role_id']);
         return response()->json($user);
     }
 
@@ -91,13 +88,13 @@ class AuthController extends Controller
         $request->validate([
             'oldPassword' => ['required','min:5','max:20'],
             'newPassword' => ['required','min:5','max:20'],
-            'email' => ['required','email',Rule::unique('usuarios','email')->ignore(Auth::user()->cod_usuario,'cod_usuario')]
+            'email' => ['required','email',Rule::unique('users','email')->ignore(Auth::user()->id,'id')]
         ],
         [
             'email.unique' => 'Ups! El e-mail ingresado ya se encuentra en uso.',
         ]);
 
-        $user = Usuario::find(Auth::user()->cod_usuario);
+        $user = User::find(Auth::user()->id);
         if($user == null)
         {
             return response()->json([

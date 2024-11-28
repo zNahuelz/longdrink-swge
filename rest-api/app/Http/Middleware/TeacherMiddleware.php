@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AlumnoMiddleware
+class TeacherMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,13 +18,12 @@ class AlumnoMiddleware
     {
         if(Auth::check())
         {
-            $tipoUsuario = Auth::user()->rol->nombre;
-            if($tipoUsuario == 'ALUMNO'){
+            $userRole = Auth::user()->role->name;
+            if($userRole == 'PROFESOR'){
                 return $next($request);
             }
         }
         return response()->json([
-            'status' => 'ERROR',
             'message' => 'Permisos insuficientes para realizar acción o token invalido.'
         ],401);
     }

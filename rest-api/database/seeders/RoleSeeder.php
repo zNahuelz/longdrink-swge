@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Rol;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class RolSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Rol::create(['nombre' => 'ADMINISTRADOR']);
-        Rol::create(['nombre' => 'ALUMNO']);
-        Rol::create(['nombre' => 'PROFESOR']);
+        Role::create(['name' => 'ADMINISTRADOR']);
+        Role::create(['name' => 'ALUMNO']);
+        Role::create(['name' => 'PROFESOR']);
     }
 }

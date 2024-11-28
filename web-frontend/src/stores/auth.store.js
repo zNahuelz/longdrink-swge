@@ -23,9 +23,9 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async login(username, password, rememberUser) {
             try {
-                let email = username
+                //let email = username
                 const response = await axios.post(`${BASE_URL}/auth/login`, {
-                    email, password
+                    username, password
                 });
                 const token = response.data.auth.token;
                 VueCookies.set('USER_TOKEN', token, rememberUser ? '1d' : '');

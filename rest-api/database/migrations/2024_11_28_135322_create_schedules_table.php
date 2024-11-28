@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turnos', function (Blueprint $table) {
-            $table->id('cod_turno');
-            $table->string('nombre',25);
-            $table->time('hora_inicio');
-            $table->time('hora_final');
+        Schema::create('schedules', function (Blueprint $table) {
+            $table->id();
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->integer('week_day');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turnos');
+        Schema::dropIfExists('schedules');
     }
 };

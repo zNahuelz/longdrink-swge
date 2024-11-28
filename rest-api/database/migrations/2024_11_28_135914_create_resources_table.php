@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monto_moras', function (Blueprint $table) {
-            $table->id('cod_monto');
-            $table->double('monto',7,2);
+        Schema::create('resources', function (Blueprint $table) {
+            $table->id();
+            $table->string('name',50);
+            $table->string('description',100);
+            $table->text('document')->charset('binary'); // -->> BLOB
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monto_moras');
+        Schema::dropIfExists('course_resources');
     }
 };

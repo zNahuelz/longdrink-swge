@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->id('cod_usuario');
-            $table->string('nombre_usuario',15)->unique();
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('username',20)->unique();
             $table->string('password',255);
-            $table->string('email',80)->unique();
-            $table->boolean('activo')->default(true);
-            $table->unsignedBigInteger('cod_rol');
-            $table->foreign('cod_rol')->references('cod_rol')->on('roles');
+            $table->string('email',50)->unique();
+            $table->softDeletes();
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('users');
     }
 };

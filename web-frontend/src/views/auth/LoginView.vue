@@ -8,9 +8,10 @@ import {ref} from "vue";
 import {Notivue, Notifications, push} from "notivue";
 
 const schema = Yup.object().shape({
-  username: Yup.string().required('Debe ingresar su nombre de usuario.'),
-  password: Yup.string().required('Debe ingresar su contraseña.'),
-})
+  username: Yup.string().max(20,'El nombre de usuario debe tener entre 5 y 20 caracteres.').required('Debe ingresar su nombre de usuario.'),
+  password: Yup.string().max(20,'La contraseña debe tener entre 5 y 20 caracteres.').required('Debe ingresar su contraseña.'),
+});
+//max --> not working.
 const rememberMe = ref(false);
 
 async function onSubmit(values, {setErrors}) {

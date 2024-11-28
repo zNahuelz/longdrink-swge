@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id('cod_rol');
-            $table->string('nombre',15)->unique();
+        Schema::create('course_resources', function (Blueprint $table) {
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('resource_id');
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('resource_id')->references('id')->on('resources');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('course_resources');
     }
 };
