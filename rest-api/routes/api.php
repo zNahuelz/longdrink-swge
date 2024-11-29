@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Http\Request;
@@ -33,10 +33,10 @@ Route::group([
 
 
 Route::group([
-    'prefix' => '/profesor',
+    'prefix' => '/teacher',
     'middleware' => AdminMiddleware::class,
 ], function ($router){
-    Route::post('/contratar', [ProfesorController::class, 'contratarProfesor']);
-    Route::get('/listar', [ProfesorController::class, 'getTeachers']);
-    Route::get('/{cod}', [ProfesorController::class, 'getTeacher']);
+    Route::post('/', [TeacherController::class, 'hireTeacher']);
+    Route::get('/list', [TeacherController::class, 'getTeachers']);
+    Route::get('/{id}', [TeacherController::class, 'getTeacher']);
 });

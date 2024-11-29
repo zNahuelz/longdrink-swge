@@ -18,14 +18,14 @@ class AuthController extends Controller
             'username' => ['required','max:20',Rule::unique('users','username')],
             'password' => ['required','min:5','max:20'],
             'email' => ['required','max:50','email'],
-            'role_id' => ['required']
+            'roleId' => ['required']
         ]);
 
         $user = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'email' => $request->email,
-            'role_id' => $request->role_id
+            'role_id' => $request->roleId
         ]);
 
         $token = Auth::guard('api')->login($user);

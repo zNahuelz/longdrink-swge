@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone',15);
             $table->string('address',100);
             $table->date('hiring_date');
-            $table->date('dismissal_date');
+            $table->date('dismissal_date')->nullable(true)->default(null);
             $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
