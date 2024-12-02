@@ -5,7 +5,7 @@ const addTeacher = (data) => {
 }
 
 const getTeachers = (page) => {
-    return fetchWrapper.GET(`/teacher?page=${page}`);
+    return fetchWrapper.GET(`/teacher/list?page=${page}`);
 }
 
 const TeacherService = {

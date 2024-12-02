@@ -63,7 +63,8 @@ class TeacherController extends Controller
 
     public function getTeachers()
     {
-        $teachers = Teacher::paginate(1);
+
+        $teachers = Teacher::paginate(10);
         return response()->json($teachers);
     }
 
