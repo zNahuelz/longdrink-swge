@@ -4,6 +4,9 @@ import SidebarComponent from "@/components/shared/SidebarComponent.vue";
 import TestPage from "@/components/shared/TestPage.vue";
 import AddTeacherView from "@/views/admin/teacher_section/AddTeacherView.vue";
 import TeacherListView from "@/views/admin/teacher_section/TeacherListView.vue";
+import {useAuthStore} from "@/stores/auth.store.js";
+import AddScheduleView from "@/views/admin/schedule_section/AddScheduleView.vue";
+import ScheduleListView from "@/views/admin/schedule_section/ScheduleListView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,21 +23,54 @@ const router = createRouter({
                 {
                     path: 'test',
                     name: 'test',
-                    component: TestPage
+                    component: TestPage,
+                    meta: { requiresAuth: true },
                 },
                 {
                     path: 'add-teacher',
                     name: 'add-teacher',
-                    component: AddTeacherView
+                    component: AddTeacherView,
+                    meta: { requiresAuth: true },
+
                 },
                 {
                     path: 'teacher-list',
                     name: 'teacher-list',
-                    component: TeacherListView
+                    component: TeacherListView,
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path: 'add-schedule',
+                    name: 'add-schedule',
+                    component: AddScheduleView,
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path: 'schedule-list',
+                    name: 'schedule-list',
+                    component: ScheduleListView,
+                    meta: { requiresAuth: true },
                 }
             ]
         }
     ],
 })
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const authenticated = authStore.authenticated;
+    if(authenticated){
+        if(to.name === 'login'){
+            next({name: 'test'})
+        }
+        else{ next(); }
+    }
+    else{
+        if(to.matched.some((record) => record.meta.requiresAuth)){
+            next({name: 'login'})
+        }
+        else{ next(); }
+    }
+});
 
 export default router

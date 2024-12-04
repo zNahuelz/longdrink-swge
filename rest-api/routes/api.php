@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
@@ -39,4 +40,13 @@ Route::group([
     Route::post('/', [TeacherController::class, 'hireTeacher']);
     Route::get('/list', [TeacherController::class, 'getTeachers']);
     Route::get('/{id}', [TeacherController::class, 'getTeacher']);
+});
+
+Route::group([
+    'prefix' => '/schedule',
+    'middleware' => AdminMiddleware::class,
+], function($router){
+    Route::post('/', [ScheduleController::class, 'createSchedule']);
+    Route::get('/list',[ScheduleController::class, 'listSchedules']);
+    Route::get('/{id}',[ScheduleController::class,'getSchedule']);
 });

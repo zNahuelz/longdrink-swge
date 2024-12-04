@@ -70,6 +70,20 @@ function signOut() {
                 </li>
               </ul>
             </li>
+
+            <li>
+              <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                <i class="fs-4 bi bi-alarm"></i> <span class="ms-1 d-none d-sm-inline">Turnos</span></a>
+              <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+                <li class="w-100">
+                  <router-link :to="{ name: 'schedule-list' }" class="nav-link px-0"> <span class="d-none d-sm-inline text-white">Listado</span></router-link>
+                </li>
+                <li>
+                  <router-link :to="{ name: 'add-schedule' }" class="nav-link px-0"> <span class="d-none d-sm-inline text-white">Nuevo</span></router-link>
+                </li>
+              </ul>
+            </li>
+
             <li>
               <a href="#" class="nav-link px-0 align-middle text-white">
                 <i class="fs-4 bi bi-info-square-fill"></i> <span class="ms-1 d-none d-sm-inline">ROL: </span> </a>

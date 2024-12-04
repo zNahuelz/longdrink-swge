@@ -20,6 +20,7 @@ class AdminMiddleware
         {
             $userRole = Auth::user()->role->name;
             if($userRole == 'ADMINISTRADOR'){
+                $request->headers->set('Accept','application/json');
                 return $next($request);
             }
         }

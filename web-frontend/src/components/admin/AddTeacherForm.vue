@@ -52,9 +52,12 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values, {setErrors}) {
-  console.log(values);
   TeacherService.addTeacher(values).then((response) => {
-    Swal.fire('Operación exitosa!',response.message,'success');
+    Swal.fire('Operación exitosa!',response.message,'success').then((e) => {
+      if(e.dismiss || e.isDismissed || e.isConfirmed){
+        window.location.reload();
+      }
+    });
   }).catch((err) => {
     console.log(err);
   })
@@ -152,7 +155,7 @@ async function onSubmit(values, {setErrors}) {
 
         <div class="row text-end mb-3">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary me-3"><i class="bi bi-floppy-fill"></i> Guardar</button>
+            <button type="submit" class="btn btn-primary me-3 fw-bold"><i class="bi bi-floppy-fill"></i> Guardar</button>
             <button type="button" class="btn btn-dark me-3 fw-bold" @click="resetForm"><i
                 class="bi bi-eraser-fill"></i> Limpiar
             </button>
