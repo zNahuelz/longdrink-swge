@@ -1,29 +1,34 @@
 <script setup>
-import TeacherService from "@/services/teacher.service.js";
+import ResourcesService from "@/services/resources.service.js";
 import {onMounted, ref} from "vue";
+import moment from "moment";
+import 'moment/locale/es';
 
-const teacherList = ref([]);
+const resources = ref([]);
 const currentPage = ref(1);
 const lastPage = ref(1);
 const loading = ref(true);
+moment.locale('es'); //TODO...
 
-async function getTeacherList(page = 1) {
-  await TeacherService.getTeachers(page).then((data) => {
+async function getResources(page = 1) {
+  await ResourcesService.getResources(page).then((data) => {
     currentPage.value = data.current_page;
     lastPage.value = data.last_page;
-    teacherList.value = data.data;
-    console.log(teacherList.value);
+    resources.value = data.data;
     loading.value = false;
   }).catch((err) => {
     console.log(err)
   })
 }
 
+
+async function downloadFile(id) {
+  //TODO...
+}
+
 onMounted(() => {
-  getTeacherList();
+  getResources();
 })
-
-
 </script>
 
 <template>
@@ -32,44 +37,37 @@ onMounted(() => {
       <div class="spinner-border me-2" role="status">
       </div>
     </div>
-    <h3 class="ms-3">Cargando docentes...</h3>
+    <h3 class="ms-3">Cargando guías de estudio...</h3>
   </div>
 
   <div class="card text-center" v-if="!loading">
     <div class="card-header bg-primary text-white fw-bold fs-5">
-      <i class="bi bi-list-task"></i> Listado de Docentes
+      <i class="bi bi-calendar4-week"></i> Listado de Turnos
     </div>
     <div class="card-body">
       <div class="container ps-5 pe-5 mt-3 mb-3">
         Filtrado de Tabla...
-
-        <div class="container text-center" v-if="teacherList.length <= 0 || !teacherList">
+        <div class="container text-center" v-if="resources.length <= 0 || !resources">
           <i class="bi bi-exclamation-triangle text-dark" style="font-size: 100px"></i>
-          <h3 class="text-dark">Oops! No se han encontrado docentes.</h3>
+          <h3 class="text-dark">Oops! No se han encontrado guías de estudio.</h3>
         </div>
         <table class="table table-secondary table-striped-columns table-bordered border-dark"
-               v-if="teacherList.length >= 1">
+               v-if="resources.length >= 1">
           <thead>
           <tr>
             <th>#</th>
-            <th>NOMBRES</th>
-            <th>AP. PATERNO</th>
-            <th>DNI</th>
-            <th>TELÉFONO</th>
-            <th>FECHA DE CONTRATO</th>
-            <th>ACTIVO</th>
+            <th>ARCHIVO</th>
+            <th>DESCRIPCIÓN</th>
+            <th>FECHA DE SUBIDA</th>
             <th>HERRAMIENTAS</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="t in teacherList" :key="t.id">
-            <td>{{ t.id }}</td>
-            <td>{{ t.name }}</td>
-            <td>{{ t.paternal_surname }}</td>
-            <td>{{ t.dni }}</td>
-            <td>{{ t.phone }}</td>
-            <td>{{ t.hiring_date }}</td>
-            <td>{{ t.dismissal_date ? 'INACTIVO' : 'ACTIVO' }}</td>
+          <tr v-for="r in resources" :key="r.id">
+            <td>{{ r.id }}</td>
+            <td>{{ r.name }}</td>
+            <td>{{ r.description }}</td>
+            <td>{{ moment(r.created_at).format('MMMM D, YYYY') }}</td>
             <td>
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-bs-toggle="dropdown"
@@ -77,7 +75,7 @@ onMounted(() => {
                   <i class="bi bi-gear-wide-connected"></i>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item fw-bold text-dark" href="#">Detalles</a></li>
+                  <li><a class="dropdown-item fw-bold text-dark" @click="downloadFile(r.id)">Descargar</a></li>
                   <li><a class="dropdown-item fw-bold text-dark" href="#">Editar</a></li>
                   <li><a class="dropdown-item fw-bold text-dark" href="#">Eliminar</a></li>
                 </ul>
@@ -94,7 +92,6 @@ onMounted(() => {
       Notas...
     </div>
   </div>
-
 </template>
 
 <style scoped>

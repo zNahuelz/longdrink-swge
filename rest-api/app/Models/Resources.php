@@ -13,7 +13,8 @@ class Resources extends Model
     protected $fillable = [
         'name',
         'description',
-        'document'
+        'document',
+        'mime_type'
     ];
 
     public function courses(): BelongsToMany

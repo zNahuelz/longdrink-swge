@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
+            $table->string('name');
             $table->string('description',100);
-            $table->text('document')->charset('binary'); // -->> BLOB
+            $table->binary('document'); // -->> BLOB
+            $table->string('mime_type');
             $table->timestamps();
         });
     }

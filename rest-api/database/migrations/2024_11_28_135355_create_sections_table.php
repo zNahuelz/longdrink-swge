@@ -19,10 +19,10 @@ return new class extends Migration
             $table->softDeletes();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('schedule_id');
+            //$table->unsignedBigInteger('schedule_id');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->foreign('teacher_id')->references('id')->on('teachers');
-            $table->foreign('schedule_id')->references('id')->on('schedules');
+            //$table->foreign('schedule_id')->references('id')->on('schedules');
             $table->timestamps();
         });
     }

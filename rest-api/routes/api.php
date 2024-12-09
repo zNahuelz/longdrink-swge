@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\ResourceMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,4 +51,13 @@ Route::group([
     Route::post('/', [ScheduleController::class, 'createSchedule']);
     Route::get('/list',[ScheduleController::class, 'listSchedules']);
     Route::get('/{id}',[ScheduleController::class,'getSchedule']);
+});
+
+Route::group([
+    'prefix' => '/resource',
+    'middleware' => ResourceMiddleware::class,
+], function($router){
+    Route::get('/list', [ResourcesController::class,'listResources']);
+    Route::post('/', [ResourcesController::class, 'uploadResource']);
+    Route::get('/{id}', [ResourcesController ::class, 'downloadResource']);
 });

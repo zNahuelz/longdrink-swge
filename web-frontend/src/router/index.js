@@ -7,6 +7,8 @@ import TeacherListView from "@/views/admin/teacher_section/TeacherListView.vue";
 import {useAuthStore} from "@/stores/auth.store.js";
 import AddScheduleView from "@/views/admin/schedule_section/AddScheduleView.vue";
 import ScheduleListView from "@/views/admin/schedule_section/ScheduleListView.vue";
+import ResourcesListView from "@/views/admin/resources_section/ResourcesListView.vue";
+import AddResourceView from "@/views/admin/resources_section/AddResourceView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +51,18 @@ const router = createRouter({
                     path: 'schedule-list',
                     name: 'schedule-list',
                     component: ScheduleListView,
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path: 'resources-list',
+                    name: 'resources-list',
+                    component: ResourcesListView,
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path: 'add-resource',
+                    name: 'add-resource',
+                    component: AddResourceView,
                     meta: { requiresAuth: true },
                 }
             ]

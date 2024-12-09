@@ -16,11 +16,6 @@ class Schedule extends Model
         'week_day',
     ];
 
-    function section(): BelongsToMany
-    {
-        return $this->belongsToMany(Section::class);
-    }
-
     function courses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class);
