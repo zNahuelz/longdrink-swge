@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "spacelab";
+  default:true;
+  prefersdark: false;
+  color-scheme: "light";
+ --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: #6184aa;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: #a6a6a6;
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: #f1f1f1;
+  --color-accent-content: oklch(0% 0 0);
+  --color-neutral: #474747;
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: #5aacf5;
+  --color-info-content: oklch(100% 0 0);
+  --color-success: #4dbc34;
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: #d47500;
+  --color-warning-content: oklch(100% 0 0);
+  --color-error: #d32220;
+  --color-error-content: oklch(100% 0 0);
+  --radius-selector: 0.25rem;
+  --radius-field: 0rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 1;
+}
