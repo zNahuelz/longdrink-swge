@@ -1,7 +1,9 @@
 package com.longdrink.app.service
 
+import com.longdrink.app.exception.ApiException
 import com.longdrink.app.repository.UserRepository
 import com.longdrink.app.util.JwtUtil
+import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -11,12 +13,15 @@ class AuthService(
     private val jwtUtil: JwtUtil
 ) {
     private val passwordEncoder = BCryptPasswordEncoder()
-    //TODO: Custom error msg on response.
     fun login(username: String, password: String): String {
-        val user = userRepo.findByUsername(username) ?: throw Exception("User not found")
-        if (!passwordEncoder.matches(password, user.password)) throw Exception("Invalid credentials")
+        val user = userRepo.findByUsername(username)
+            ?: throw ApiException(HttpStatus.UNAUTHORIZED, "Usuario no encontrado")
 
-        val permissions = user.role?.permissions?.map {it.key} ?: emptyList()
-        return jwtUtil.generateToken(user.username,permissions)
+        if (!passwordEncoder.matches(password, user.password)) {
+            throw ApiException(HttpStatus.UNAUTHORIZED, "Credenciales incorrectas")
+        }
+
+        val permissions = user.role?.permissions?.map { it.key } ?: emptyList()
+        return jwtUtil.generateToken(user.username, permissions)
     }
 }

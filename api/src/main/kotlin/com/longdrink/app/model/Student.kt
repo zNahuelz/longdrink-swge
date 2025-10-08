@@ -1,12 +1,14 @@
 package com.longdrink.app.model
 
 import com.longdrink.app.common.Auditable
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDate
@@ -49,4 +51,7 @@ data class Student(
     @Column(name = "deleted_at")
     val deletedAt: LocalDateTime? = null,
 
-    ) : Auditable()
+    @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val enrollments: MutableList<StudentSection> = mutableListOf()
+
+) : Auditable()

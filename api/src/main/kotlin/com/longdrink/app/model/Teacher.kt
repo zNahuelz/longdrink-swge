@@ -41,10 +41,10 @@ data class Teacher(
     val address: String = "",
 
     @Column(name = "birth_date", nullable = false)
-    val birthDate: LocalDate? = null,
+    val birthDate: LocalDate,
 
     @Column(name = "hiring_date", nullable = false)
-    val hiringDate: LocalDate? = null,
+    val hiringDate: LocalDate,
 
     @Column(name = "dismissal_date", nullable = true)
     val dismissalDate: LocalDate? = null,

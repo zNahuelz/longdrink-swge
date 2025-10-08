@@ -1,65 +1,34 @@
-package com.longdrink.app.config
+package com.longdrink.app.seeder
 
 import com.longdrink.app.model.Employee
-import com.longdrink.app.model.Permission
-import com.longdrink.app.model.Role
 import com.longdrink.app.model.Student
 import com.longdrink.app.model.Teacher
 import com.longdrink.app.model.User
-import com.longdrink.app.repository.EmployeeRepository
-import com.longdrink.app.repository.PermissionRepository
-import com.longdrink.app.repository.RoleRepository
-import com.longdrink.app.repository.StudentRepository
-import com.longdrink.app.repository.TeacherRepository
-import com.longdrink.app.repository.UserRepository
-import org.springframework.boot.CommandLineRunner
+import com.longdrink.app.repository.*
+import jakarta.transaction.Transactional
+import org.springframework.core.annotation.Order
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Component
-class DatabaseSeeder(
-    private val roleRepository: RoleRepository,
-    private val permissionRepository: PermissionRepository,
+@Order(2)
+class UserSeeder(
     private val userRepository: UserRepository,
     private val teacherRepository: TeacherRepository,
     private val studentRepository: StudentRepository,
-    private val employeeRepository: EmployeeRepository
-) : CommandLineRunner {
+    private val employeeRepository: EmployeeRepository,
+    private val roleRepository: RoleRepository
+) : Seeder {
+
     private val encoder = BCryptPasswordEncoder()
 
     @Transactional
-    override fun run(vararg args: String?) {
-        val defaultPermissions = listOf(
-            Triple("ROOT", "Permisos administrativos.", "Permite el uso de todas las funciones del sistema.")
-        )
-
-        val savedPermissions = defaultPermissions.map { (key, name, description) ->
-            permissionRepository.findByKey(key) ?: permissionRepository.save(
-                Permission(
-                    key = key,
-                    name = name,
-                    description = description
-                )
-            )
-        }.toMutableSet()
-
-        val adminRole = roleRepository.findByName("ADMINISTRADOR") ?: roleRepository.save(
-            Role(name = "ADMINISTRADOR", permissions = savedPermissions)
-        )
-
-        val teacherRole = roleRepository.findByName("DOCENTE") ?: roleRepository.save(
-            Role(name = "DOCENTE")
-        )
-
-        val studentRole = roleRepository.findByName("ALUMNO") ?: roleRepository.save(
-            Role(name = "ALUMNO")
-        )
-
-        val receptionistRole = roleRepository.findByName("SECRETARIA") ?: roleRepository.save(
-            Role(name = "SECRETARIA")
-        )
+    override fun run() {
+        val adminRole = roleRepository.findByName("ADMINISTRADOR")!!
+        val teacherRole = roleRepository.findByName("DOCENTE")!!
+        val studentRole = roleRepository.findByName("ALUMNO")!!
+        val receptionistRole = roleRepository.findByName("SECRETARIA")!!
 
         if (employeeRepository.findByCitizenId("00000001") == null) {
             val employee = employeeRepository.save(
@@ -73,8 +42,7 @@ class DatabaseSeeder(
                     address = "-----",
                     birthDate = LocalDate.of(2000, 1, 1),
                     hiringDate = LocalDate.now(),
-                    dismissalDate = null,
-                    position = "GERENTE",
+                    position = "GERENTE"
                 )
             )
             userRepository.save(
@@ -85,7 +53,7 @@ class DatabaseSeeder(
                     role = adminRole
                 )
             )
-            println("[INFO] : Cuenta de administrador creada correctamente.")
+            println("[DB - SEEDER] Usuario administrador creado.")
         }
 
         if (teacherRepository.findByCitizenId("01122334") == null) {
@@ -112,7 +80,7 @@ class DatabaseSeeder(
                     teacher = teacher
                 )
             )
-            println("[INFO] : Cuenta de docente creada correctamente.")
+            println("[DB - SEEDER] Usuario docente creado.")
         }
 
         if (studentRepository.findByCitizenId("02233445") == null) {
@@ -137,7 +105,7 @@ class DatabaseSeeder(
                     student = student
                 )
             )
-            println("[INFO] : Cuenta de alumno creada correctamente.")
+            println("[DB - SEEDER] Usuario estudiante creado.")
         }
 
         if (employeeRepository.findByCitizenId("03344556") == null) {
@@ -165,8 +133,7 @@ class DatabaseSeeder(
                     employee = employee
                 )
             )
-            println("[INFO] : Cuenta de secretaria creada correctamente.")
+            println("[DB - SEEDER] Usuario secretaria creado.")
         }
-        println("[INFO] : Información inicial insertada en base de datos.")
     }
 }
