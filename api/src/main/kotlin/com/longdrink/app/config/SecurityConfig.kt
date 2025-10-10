@@ -27,13 +27,13 @@ class SecurityConfig(private val jwtAuthFilter: JwtAuthFilter) {
                 exceptions.authenticationEntryPoint { request, response, authException ->
                     response.status = HttpStatus.UNAUTHORIZED.value()
                     response.contentType = "application/json"
-                    response.writer.write("""{"message":"Unauthenticated"}""")
+                    response.writer.write("""{"message":"Token invalido o no disponible"}""")
                 }
 
                 exceptions.accessDeniedHandler { request, response, accessDeniedException ->
                     response.status = HttpStatus.FORBIDDEN.value()
                     response.contentType = "application/json"
-                    response.writer.write("""{"message":"Access denied"}""")
+                    response.writer.write("""{"message":"Su cuenta no posee lo permisos necesarios para acceder al recurso."}""")
                 }
             }
         return http.build()

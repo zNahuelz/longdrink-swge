@@ -18,19 +18,8 @@ class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, Any>> {
         val errors = ex.bindingResult.fieldErrors.associate { it.field to (it.defaultMessage ?: "Invalid value") }
-        val response = mapOf("message" to "Validation failed", "errors" to errors)
+        val response = mapOf("message" to "Validación fallida", "errors" to errors)
         return ResponseEntity.badRequest().body(response)
     }
 
-    @ExceptionHandler(AccessDeniedException::class)
-    fun handleAccessDenied(ex: AccessDeniedException): ResponseEntity<Map<String, String>> {
-        val response = mapOf("message" to "Access denied")
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)
-    }
-
-    @ExceptionHandler(Exception::class)
-    fun handleGenericException(ex: Exception): ResponseEntity<Map<String, String>> {
-        val response = mapOf("message" to (ex.message ?: "Unexpected error"))
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
-    }
 }

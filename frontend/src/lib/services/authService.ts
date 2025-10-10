@@ -1,48 +1,74 @@
+import api from '$lib/api';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+	sub: string;
+	iat: number;
+	exp: number;
+	permissions?: string[];
+}
 
 class AuthService {
-  private baseUrl = 'http://localhost:8080';
+	private baseUrl = 'http://localhost:8080/api/v1/auth';
 
-  async login(username: string, password: string) {
-    const res = await fetch(`${this.baseUrl}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+	async login(username: string, password: string, rememberMe: boolean) {
+		const res = await fetch(`${this.baseUrl}/login`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username, password })
+		});
+		const data = await res.json();
+		if (!res.ok) {
+			const message =
+				data?.message ||
+				data?.error ||
+				'Error durante el inicio de sesión, comuniquese con administración.';
+			throw new Error(message);
+		}
+		if (data.token) {
+			Cookies.set('JWT_TOKEN', data.token, rememberMe ? { expires: 7 } : {});
+		}
+		return data;
+	}
 
-    if (!res.ok) {
-      throw new Error('Invalid credentials');
-    }
+	logout() {
+		Cookies.remove('JWT_TOKEN');
+	}
 
-    const data = await res.json();
+	getToken() {
+		return Cookies.get('JWT_TOKEN');
+	}
 
-    // Store the token in a browser cookie (NOT httpOnly)
-    if (data.token) {
-      Cookies.set('JWT_TOKEN', data.token, { expires: 1 }); // expires in 1 day
-    }
+	async getProfile() {
+		try {
+			const { data } = await api.get('/api/v1/auth/profile');
+			return data;
+		} catch (error) {
+			console.error('Error fetching profile:', error);
+			throw error;
+		}
+	}
 
-    return data;
-  }
+	getDecodedToken(): JwtPayload | null {
+		const token = this.getToken();
+		if (!token) return null;
+		try {
+			return jwtDecode<JwtPayload>(token);
+		} catch {
+			return null;
+		}
+	}
 
-  logout() {
-    Cookies.remove('JWT_TOKEN');
-  }
+	getPermissions(): string[] {
+		const decoded = this.getDecodedToken();
+		return decoded?.permissions || [];
+	}
 
-  getToken() {
-    return Cookies.get('JWT_TOKEN');
-  }
-
-  async getProfile() {
-    const token = this.getToken();
-    if (!token) throw new Error('No token found');
-
-    const res = await fetch(`${this.baseUrl}/api/user/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) throw new Error('Unauthorized');
-    return await res.json();
-  }
+	hasPermission(permission: string): boolean {
+		const permissions = this.getPermissions();
+		return permissions.includes(permission);
+	}
 }
 
 export const authService = new AuthService();

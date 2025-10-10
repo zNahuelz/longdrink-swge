@@ -23,7 +23,7 @@ data class User(
     @Column(name = "profile_picture")
     val profilePicture: String? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     val role: Role? = null,
 

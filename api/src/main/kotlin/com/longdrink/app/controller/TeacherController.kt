@@ -2,7 +2,6 @@ package com.longdrink.app.controller
 
 import com.longdrink.app.dto.TeacherFilterDTO
 import com.longdrink.app.dto.TeacherListDTO
-import com.longdrink.app.model.Teacher
 import com.longdrink.app.service.TeacherService
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/teacher")
 class TeacherController(private val teacherService: TeacherService) {
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROOT', 'TEACHER_LIST')")
+    @PreAuthorize("hasAnyAuthority('ROOT', 'TEACHER_INDEX')")
     fun index(
         @RequestParam(required = false) search: String?,
         @RequestParam(required = false) citizenId: String?,

@@ -50,7 +50,8 @@ class UserSeeder(
                     username = "admin",
                     email = "admin@longdrink.com",
                     password = encoder.encode("admin"),
-                    role = adminRole
+                    role = adminRole,
+                    employee = employee,
                 )
             )
             println("[DB - SEEDER] Usuario administrador creado.")

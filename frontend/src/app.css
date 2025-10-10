@@ -34,3 +34,29 @@
   --depth: 1;
   --noise: 1;
 }
+
+:root {
+	--svoast-offset: 16px;
+	--svoast-gap: 16px;
+
+	--svoast-bg: #f0e7e7;
+	--svoast-text: #000000;
+	--svoast-padding: 10px 15px 10px 18px;
+	--svoast-radius: 4px;
+	--svoast-shadow: 0 2px 7px hsl(0 0% 0% / 0.25);
+	--svoast-font-size: 14px;
+	--svoast-dismiss-gap: 8px;
+	--svoast-max-width: unset;
+
+	--svoast-colour: '';
+
+	--svoast-info-colour: #888;
+	--svoast-attention-colour: #38bdf8;
+	--svoast-success-colour: #51f51f;
+	--svoast-warning-colour: #fb923c;
+	--svoast-error-colour: #ef4444;
+
+	--svoast-bar-width: 3px;
+
+	--svoast-icon-padding: 2px;
+}
