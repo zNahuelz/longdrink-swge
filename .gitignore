@@ -1,5 +1,8 @@
 
-storage/*.key
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
 .env
 Homestead.yaml
 Homestead.json

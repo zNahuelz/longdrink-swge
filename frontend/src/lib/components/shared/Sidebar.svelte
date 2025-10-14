@@ -36,10 +36,7 @@
 				</button>
 			</li>
 
-			<!-- Nueva Venta -->
 			<li>
-				<button
-					type="button"
 					class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-primary/50"
 				>
 					<Icon icon="lucide:notebook-pen" class="text-lg leading-none"></Icon>
