@@ -1,6 +1,7 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import { DateTime } from 'luxon'
 import Teacher from '../../app/models/teacher.js'
+import { TeacherFactory } from '../factories/teacher_factory.js'
 
 export default class extends BaseSeeder {
   async run() {
@@ -18,5 +19,7 @@ export default class extends BaseSeeder {
       hiringDate: today,
       dismissalDate: null,
     })
+
+    await TeacherFactory.createMany(100)
   }
 }

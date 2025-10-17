@@ -7,6 +7,7 @@ export default class TeacherController {
       const page = request.input('page', 1)
       const limit = request.input('limit', 10)
       const search = request.input('search', '')
+      const searchBy = request.input('searchBy', 'all') // 'names' | 'citizen_id' | 'id' | 'all'
       const status = request.input('status', 'available') // 'available' | 'deleted' | 'all'
       const orderBy = request.input('orderBy', 'names')
       const orderDir = request.input('orderDir', 'asc') // 'asc' | 'desc'
@@ -15,7 +16,23 @@ export default class TeacherController {
 
       if (search) {
         query.where((q) => {
-          q.whereILike('citizen_id', `%${search}%`).orWhereILike('names', `%${search}%`)
+          switch (searchBy) {
+            case 'id':
+              q.where('id', search)
+              break
+            case 'citizen_id':
+              q.whereILike('citizen_id', `%${search}%`)
+              break
+            case 'names':
+              q.whereILike('names', `%${search}%`)
+                .orWhereILike('paternal_surname', `%${search}%`)
+                .orWhereILike('maternal_surname', `%${search}%`)
+              break
+            case 'all':
+            default:
+              q.whereILike('citizen_id', `%${search}%`).orWhereILike('names', `%${search}%`)
+              break
+          }
         })
       }
 
@@ -31,7 +48,6 @@ export default class TeacherController {
       }
 
       query.orderBy(orderBy, orderDir)
-
       const teachers = await query.paginate(page, limit)
       teachers.baseUrl(request.url())
 

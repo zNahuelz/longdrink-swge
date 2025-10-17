@@ -50,7 +50,7 @@
 					<summary
 						class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-primary/50"
 					>
-						<Icon icon="lucide:package-check" class="text-lg leading-none"></Icon>
+						<Icon icon="lucide:users-round" class="text-lg leading-none" />
 						<span class="font-medium">Alumnos</span>
 					</summary>
 					<ul class="mt-2 ml-6 space-y-1">
@@ -60,8 +60,10 @@
 							>
 						</li>
 						<li>
-							<button type="button" class="block rounded px-3 py-1 hover:bg-primary/50"
-								>Listado</button
+							<button
+								type="button"
+								on:click={() => goTo('/dashboard/student')}
+								class="block rounded px-3 py-1 hover:bg-primary/50">Listado</button
 							>
 						</li>
 					</ul>
@@ -73,7 +75,7 @@
 					<summary
 						class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-primary/50"
 					>
-						<Icon icon="lucide:package-check" class="text-lg leading-none"></Icon>
+						<Icon icon="lucide:book-user" class="text-lg leading-none" />
 						<span class="font-medium">Docentes</span>
 					</summary>
 					<ul class="mt-2 ml-6 space-y-1">
@@ -176,9 +178,9 @@
 				<button
 					type="button"
 					on:click={logout}
-					class="flex items-center gap-3 rounded-lg px-3 py-2 text-error transition-colors hover:bg-error/10"
+					class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-error/10 hover:text-error"
 				>
-					<Icon icon="lucide:package-check" class="h-5 w-5"></Icon>
+					<Icon icon="lucide:log-out" class="h-5 w-5" />
 					<span class="font-medium">Cerrar Sesión</span>
 				</button>
 			</li>

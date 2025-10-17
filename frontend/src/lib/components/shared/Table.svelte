@@ -2,7 +2,7 @@
 	import dayjs from 'dayjs';
 	export let columns: { key: keyof T; label: string }[] = [];
 	export let data: T[] = [];
-	export let emptyMessage: string = 'No se encontraron elementos.';
+	export let errorMessage: string = 'No se encontraron elementos.';
 </script>
 
 <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
@@ -16,17 +16,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#if data.length === 0}
-				<template> <h1>{emptyMessage}</h1></template>
+			{#if data.length <= 0 || !data}
+				<tr>
+					<td class="py-4 text-center text-lg font-light" colspan={columns.length + 1}>
+						{errorMessage}
+					</td></tr
+				>
 			{:else}
 				{#each data as row}
-					<tr class="hover:bg-primary/20">
+					<tr class="hover:bg-secondary/10">
 						{#each columns as col}
 							<td>
-								{#if ['createdAt', 'deletedAt'].includes(col.key as string) && row[col.key]}
+								{#if ['createdAt'].includes(col.key as string) && row[col.key]}
 									{dayjs(row[col.key]).format('DD/MM/YYYY h:mm A')}
 								{:else if col.key === 'deletedAt'}
-									{row[col.key] ? 'DESHABILITADO' : 'HABILITADO'}
+									<span class={row[col.key] ? 'font-bold text-error' : 'font-bold text-success'}>
+										{row[col.key] ? 'DESHABILITADO' : 'HABILITADO'}
+									</span>
 								{:else}
 									{row[col.key]}
 								{/if}

@@ -3,6 +3,7 @@
 	import { authService } from '$lib/services/authService';
 	import { get } from 'svelte/store';
 	import { authStore } from '../../../stores/userStore';
+	import Icon from '@iconify/svelte';
 
 	async function logout() {
 		await authService.logout();
@@ -35,24 +36,24 @@
 		<div class="dropdown dropdown-end">
 			<div tabindex="0" role="button" class="btn btn-circle btn-ghost">
 				<div class="indicator">
-					<i class="bi bi-bell h-5 w-5"></i>
+					<Icon icon="lucide:bell" class="h-5 w-5" />
 					<span class="indicator-item badge badge-sm badge-primary">3</span>
 				</div>
 			</div>
-			<div class="card-compact dropdown-content card z-[1] mt-3 w-80 bg-base-100 shadow-lg">
+			<div class="card-compact dropdown-content card z-[1] mt-3 w-80 border bg-base-100 shadow-lg">
 				<div class="card-body">
 					<h3 class="text-lg font-bold">Notificaciones</h3>
 					<div class="space-y-2">
 						<div class="rounded p-2 hover:bg-base-200">
-							<p class="text-sm font-medium">Nueva cita programada</p>
+							<p class="text-sm font-medium">Mensaje de Prueba #1</p>
 							<p class="text-xs text-base-content/70">Hace 5 minutos</p>
 						</div>
 						<div class="rounded p-2 hover:bg-base-200">
-							<p class="text-sm font-medium">Pago recibido</p>
+							<p class="text-sm font-medium">Mensaje de Prueba #2</p>
 							<p class="text-xs text-base-content/70">Hace 10 minutos</p>
 						</div>
 						<div class="rounded p-2 hover:bg-base-200">
-							<p class="text-sm font-medium">Nuevo paciente registrado</p>
+							<p class="text-sm font-medium">Mensaje de Prueba #3</p>
 							<p class="text-xs text-base-content/70">Hace 1 hora</p>
 						</div>
 					</div>
