@@ -1,6 +1,6 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
-	export let columns: { key: keyof T; label: string }[] = [];
+	export let columns: { key: keyof T; label: string; render?: (row: any) => any }[] = [];
 	export let data: T[] = [];
 	export let errorMessage: string = 'No se encontraron elementos.';
 </script>
@@ -27,7 +27,9 @@
 					<tr class="hover:bg-secondary/10">
 						{#each columns as col}
 							<td>
-								{#if ['createdAt'].includes(col.key as string) && row[col.key]}
+								{#if col.render}
+									{col.render(row)}
+								{:else if col.key === 'createdAt' && row[col.key]}
 									{dayjs(row[col.key]).format('DD/MM/YYYY h:mm A')}
 								{:else if col.key === 'deletedAt'}
 									<span class={row[col.key] ? 'font-bold text-error' : 'font-bold text-success'}>

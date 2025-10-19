@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Teacher from '../models/teacher.js'
+import Student from '../models/student.js'
 
-export default class TeacherController {
+export default class StudentController {
   public async index({ request, response }: HttpContext) {
     try {
       const page = request.input('page', 1)
@@ -12,7 +12,7 @@ export default class TeacherController {
       const orderBy = request.input('orderBy', 'names')
       const orderDir = request.input('orderDir', 'asc') // 'asc' | 'desc'
 
-      const query = Teacher.query()
+      const query = Student.query()
 
       if (search) {
         query.where((q) => {
@@ -48,13 +48,13 @@ export default class TeacherController {
       }
 
       query.orderBy(orderBy, orderDir)
-      const teachers = await query.paginate(page, limit)
-      teachers.baseUrl(request.url())
+      const students = await query.paginate(page, limit)
+      students.baseUrl(request.url())
 
-      return response.ok(teachers)
+      return response.ok(students)
     } catch (error) {
       return response.internalServerError({
-        message: 'Error en el listado de docentes, intente nuevamente.',
+        message: 'Error en el listado de alumnos, intente nuevamente.',
         error: error.message,
       })
     }

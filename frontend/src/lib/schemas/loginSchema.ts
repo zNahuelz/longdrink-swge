@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const loginSchema = z.object({
+export const LoginSchema = z.object({
 	username: z
 		.string()
 		.min(5, 'El nombre de usuario debe tener al menos 5 caracteres.')
@@ -12,4 +12,4 @@ export const loginSchema = z.object({
 	rememberMe: z.boolean().optional().default(false)
 });
 
-export type LoginSchema = z.infer<typeof loginSchema>;
+export type LoginSchema = z.infer<typeof LoginSchema>;

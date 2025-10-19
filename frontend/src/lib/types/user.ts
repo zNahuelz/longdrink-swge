@@ -1,10 +1,4 @@
-export interface Role {
-	id: number;
-	name: string;
-	createdAt: Date;
-	updatedAt: Date;
-	deletedAt: Date | null;
-}
+import type { Role } from './role';
 
 export interface PersonalInfoBase {
 	id: number;
@@ -40,7 +34,7 @@ export interface User {
 	email: string;
 	profilePicture: string | null;
 	roleId: number;
-	role: Role;
+	role: Role | null;
 	employeeId: number | null;
 	studentId: number | null;
 	teacherId: number | null;

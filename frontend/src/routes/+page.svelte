@@ -2,7 +2,7 @@
 	import { authService } from '$lib/services/authService';
 	import { goto } from '$app/navigation';
 	import loginIcon from '$lib/assets/images/login_icon_black.png';
-	import { loginSchema, type LoginSchema } from '$lib/schemas/loginSchema';
+	import { LoginSchema } from '$lib/schemas/loginSchema';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	let error = '';
@@ -20,7 +20,7 @@
 
 	const { form, errors, isSubmitting, reset } = createForm({
 		initialValues: { username: '', password: '', rememberMe: false },
-		extend: validator({ schema: loginSchema }),
+		extend: validator({ schema: LoginSchema }),
 		onSubmit: login
 	});
 </script>

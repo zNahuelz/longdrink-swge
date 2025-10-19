@@ -1,8 +1,8 @@
 import api from '$lib/api';
 import { Pagination, type PaginationMeta } from '$lib/types/pagination';
-import type { Teacher } from '$lib/types/teacher';
+import type { Student } from '$lib/types/student';
 
-export interface TeacherQueryParams {
+export interface StudentQueryParams {
 	page?: number;
 	limit?: number;
 	search?: string;
@@ -12,10 +12,10 @@ export interface TeacherQueryParams {
 	orderDir?: 'asc' | 'desc';
 }
 
-class TeacherService {
-	private baseUrl = '/teacher';
+class StudentService {
+	private baseUrl = '/student';
 
-	async fetchTeachers({
+	async fetchStudents({
 		page = 1,
 		limit = 10,
 		search = '',
@@ -23,7 +23,7 @@ class TeacherService {
 		status = 'available',
 		orderBy = 'id',
 		orderDir = 'asc'
-	}: TeacherQueryParams = {}): Promise<Pagination<Teacher>> {
+	}: StudentQueryParams = {}): Promise<Pagination<Student>> {
 		try {
 			const params = {
 				page,
@@ -38,12 +38,12 @@ class TeacherService {
 			const res = await api.get(this.baseUrl, { params });
 			const json = res.data;
 
-			return new Pagination<Teacher>(json.meta as PaginationMeta, json.data as Teacher[]);
+			return new Pagination<Student>(json.meta as PaginationMeta, json.data as Student[]);
 		} catch (error: any) {
-			const message = error.response?.data?.message || 'Error durante la carga de docentes.';
+			const message = error.response?.data?.message || 'Error durante la carga de alumnos.';
 			throw new Error(message);
 		}
 	}
 }
 
-export const teacherService = new TeacherService();
+export const studentService = new StudentService();

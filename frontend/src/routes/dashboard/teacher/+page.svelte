@@ -1,5 +1,4 @@
 <script lang="ts">
-	console.log;
 	import type { Teacher } from '$lib/types/teacher';
 	import { teacherService } from '$lib/services/teacherService';
 	import LoadingScreen from '$lib/components/shared/LoadingScreen.svelte';
@@ -12,6 +11,7 @@
 	import { writable } from 'svelte/store';
 	import { get } from 'svelte/store';
 	import { ERROR_MESSAGES, tableElementsMessage } from '$lib/constants/strings';
+	import { DEFAULT_STATUS_TYPES } from '$lib/constants/constants';
 
 	let isLoading = false;
 	let error: string | null = null;
@@ -20,6 +20,7 @@
 	let page = 1;
 	let limit = 10;
 	let search = '';
+	let status = 'available';
 	const searchBy = writable<'all' | 'id' | 'citizen_id' | 'names'>('id');
 
 	const columns = [
@@ -47,8 +48,9 @@
 	/***************************** Runes *****************************/
 	$: if ($searchBy) search = '';
 	$: if (limit) page = 1;
+	$: if (status) page = 1;
 
-	$: (loadTeachers(), [page, limit]);
+	$: (loadTeachers(), [page, limit, status]);
 	/***************************** Runes *****************************/
 
 	async function loadTeachers() {
@@ -59,7 +61,8 @@
 				page,
 				search,
 				searchBy: get(searchBy),
-				limit
+				limit,
+				status
 			});
 			if (teachers.data?.length <= 0 && search != '') {
 				errorMessage = ERROR_MESSAGES.TEACHERS_NOT_FOUND;
@@ -76,6 +79,7 @@
 		page = 1;
 		limit = 10;
 		search = '';
+		status = 'available';
 		searchBy.set('id');
 		loadTeachers();
 	}
@@ -142,7 +146,17 @@
 			>
 		</div>
 	</Table>
-	<Pagination bind:limit bind:page {totalPages}></Pagination>
+	<div
+		class="flex flex-col items-center space-y-2 md:flex md:flex-row md:items-center md:justify-between md:space-y-0"
+	>
+		<Pagination bind:limit bind:page {totalPages}></Pagination>
+		<select class="select w-60 md:w-50" bind:value={status}>
+			{#each DEFAULT_STATUS_TYPES as { label, value }}
+				<option {value}>{label}</option>
+			{/each}
+		</select>
+	</div>
+
 	<h1 class="mt-1 text-center font-medium">
 		{#if teachers.data?.length >= 1}
 			{tableElementsMessage('docente', 'docentes', teachers.meta?.total, teachers.data?.length)}

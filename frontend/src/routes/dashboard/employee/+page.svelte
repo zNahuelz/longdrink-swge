@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import LoadingScreen from '$lib/components/shared/LoadingScreen.svelte';
 	import Pagination from '$lib/components/shared/Pagination.svelte';
 	import Table from '$lib/components/shared/Table.svelte';
 	import { DEFAULT_STATUS_TYPES } from '$lib/constants/constants';
-	import { STUDENT_SEARCH_TYPES } from '$lib/constants/searchTypes';
+	import { EMPLOYEE_SEARCH_TYPES } from '$lib/constants/searchTypes';
 	import { ERROR_MESSAGES, tableElementsMessage } from '$lib/constants/strings';
-	import { studentService } from '$lib/services/studentService';
+	import { employeeService } from '$lib/services/employeeService';
+	import type { Employee } from '$lib/types/employee';
 	import { Pagination as _Pagination } from '$lib/types/pagination';
-	import type { Student } from '$lib/types/student';
 	import Icon from '@iconify/svelte';
 	import { get, writable } from 'svelte/store';
 	import { toast } from 'svoast';
@@ -15,28 +16,40 @@
 	let isLoading = false;
 	let error: string | null = null;
 	let errorMessage = 'No se encontraron alumnos.';
-	let students = new _Pagination<Student>({} as any, []);
+	let employees = new _Pagination<Employee>({} as any, []);
 	let page = 1;
 	let limit = 10;
 	let search = '';
 	let status = 'available';
-	const searchBy = writable<'all' | 'id' | 'citizen_id' | 'names'>('id');
+	const searchBy = writable<'all' | 'id' | 'citizen_id' | 'position' | 'names'>('id');
 
 	const columns = [
 		{ key: 'id', label: '#' },
 		{ key: 'names', label: 'NOMBRES' },
 		{ key: 'paternalSurname', label: 'AP. PATERNO' },
-		{ key: 'maternalSurname', label: 'AP.MATERNO' },
 		{ key: 'citizenId', label: 'DNI' },
 		{ key: 'phone', label: 'TELÉFONO' },
+		{ key: 'position', label: 'CARGO' },
 		{ key: 'createdAt', label: 'F. REGISTRO' },
-		{ key: 'deletedAt', label: 'ESTADO' }
+		{ key: 'deletedAt', label: 'ESTADO' },
+		{
+			key: 'user',
+			label: 'USUARIO',
+			render: (row: Employee) => row.user?.username ?? 'SIN USUARIO'
+		}
 	];
 
 	/***************************** Validations *****************************/
-	$: totalPages = students.meta?.lastPage ?? 1;
+	$: totalPages = employees.meta?.lastPage ?? 1;
 
-	$: minlength = $searchBy === 'names' ? 3 : $searchBy === 'citizen_id' ? 8 : undefined;
+	$: minlength =
+		$searchBy === 'names'
+			? 3
+			: $searchBy === 'position'
+				? 3
+				: $searchBy === 'citizen_id'
+					? 8
+					: undefined;
 
 	$: pattern =
 		$searchBy === 'citizen_id' ? '^[0-9]{8,15}$' : $searchBy === 'id' ? '^[0-9]+$' : undefined;
@@ -49,25 +62,25 @@
 	$: if (limit) page = 1;
 	$: if (status) page = 1;
 
-	$: (loadStudents(), [page, limit, status]);
+	$: (loadEmployees(), [page, limit, status]);
 	/***************************** Runes *****************************/
 
-	async function loadStudents() {
+	async function loadEmployees() {
 		isLoading = true;
 		error = null;
 		try {
-			students = await studentService.fetchStudents({
+			employees = await employeeService.fetchEmployees({
 				page,
 				search,
 				searchBy: get(searchBy),
 				limit,
 				status
 			});
-			if (students.data?.length <= 0 && search != '') {
-				errorMessage = ERROR_MESSAGES.STUDENTS_NOT_FOUND;
+			if (employees.data?.length <= 0 && search != '') {
+				errorMessage = ERROR_MESSAGES.EMPLOYEES_NOT_FOUND;
 			}
 		} catch (err) {
-			students = new _Pagination<Student>({} as any, []);
+			employees = new _Pagination<Employee>({} as any, []);
 			errorMessage = ERROR_MESSAGES.API_CONN_ERROR;
 		} finally {
 			isLoading = false;
@@ -80,31 +93,39 @@
 		search = '';
 		status = 'available';
 		searchBy.set('id');
-		loadStudents();
+		loadEmployees();
 	}
 
-	function wip(action: string, student: Student) {
-		toast.info(`ID: ${student.id} -- ${student.names} | ${action}`);
+	function goTo(page: string) {
+		goto(page);
+	}
+
+	function wip(action: string, employee: Employee) {
+		toast.info(`ID: ${employee.id} -- ${employee.names} | ${action}`);
 	}
 </script>
 
 <svelte:head>
-	<title>Listado de Alumnos | LongDrink</title>
+	<title>Listado de Empleados | LongDrink</title>
 </svelte:head>
 {#if isLoading}
-	<LoadingScreen loadMessage="Cargando alumnos..."></LoadingScreen>
+	<LoadingScreen loadMessage="Cargando empleados..."></LoadingScreen>
 {:else}
 	<div
 		class="mb-2 flex flex-col items-center space-y-2 md:flex md:flex-row md:items-center md:justify-between"
 	>
-		<button type="button" class="btn w-100 btn-success md:w-auto">Nuevo</button>
+		<button
+			type="button"
+			class="btn w-100 btn-success md:w-auto"
+			on:click={() => goTo('/dashboard/employee/new')}>Nuevo</button
+		>
 		<form
 			class="flex flex-col items-center space-y-2 md:flex md:flex-row md:items-center md:gap-2 md:space-y-0"
-			on:submit|preventDefault={loadStudents}
+			on:submit|preventDefault={loadEmployees}
 			on:invalid={(e) => e.preventDefault()}
 		>
 			<select class="select w-100 md:w-50" name="searchBy" bind:value={$searchBy}>
-				{#each STUDENT_SEARCH_TYPES as { label, value }}
+				{#each EMPLOYEE_SEARCH_TYPES as { label, value }}
 					<option {value}>{label}</option>
 				{/each}
 			</select>
@@ -129,12 +150,12 @@
 			>
 		</form>
 	</div>
-	<Table {columns} data={students.data} {errorMessage}>
+	<Table {columns} data={employees.data} {errorMessage}>
 		<div class="join-horizontal join" slot="actions" let:row>
 			<button
 				class="btn join-item btn-primary"
 				title="Detalles"
-				on:click={() => wip('Detalles', row)}
+				on:click={() => goTo(`/dashboard/employee/detail/${row.id}`)}
 				><Icon icon="lucide:more-horizontal" class="text-md lg:text-lg" /></button
 			>
 			<button class="btn join-item btn-accent" title="Editar" on:click={() => wip('Editar', row)}
@@ -157,8 +178,8 @@
 	</div>
 
 	<h1 class="mt-1 text-center font-medium">
-		{#if students.data?.length >= 1}
-			{tableElementsMessage('alumno', 'alumnos', students.meta?.total, students.data?.length)}
+		{#if employees.data?.length >= 1}
+			{tableElementsMessage('empleado', 'empleados', employees.meta?.total, employees.data?.length)}
 		{/if}
 	</h1>
 {/if}
