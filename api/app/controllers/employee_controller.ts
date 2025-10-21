@@ -128,4 +128,27 @@ export default class EmployeeController {
       })
     }
   }
+
+  public async show({ response, params }: HttpContext) {
+    const id = Number(params.id)
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return response.badRequest({ message: 'El ID de empleado debe ser numérico.' })
+    }
+
+    const employee = await Employee.query()
+      .where('id', id)
+      .preload('user', (userQuery) => {
+        userQuery.preload('role', (roleQuery) => {
+          roleQuery.preload('abilities')
+        })
+      })
+      .first()
+
+    if (!employee) {
+      return response.notFound({ message: `Empleado de ID: ${id} no encontrado.` })
+    }
+
+    return response.ok(employee)
+  }
 }

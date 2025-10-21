@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatAsDate, formatAsDatetime } from '$lib/constants/utils';
 	import dayjs from 'dayjs';
 	export let columns: { key: keyof T; label: string; render?: (row: any) => any }[] = [];
 	export let data: T[] = [];
@@ -30,7 +31,7 @@
 								{#if col.render}
 									{col.render(row)}
 								{:else if col.key === 'createdAt' && row[col.key]}
-									{dayjs(row[col.key]).format('DD/MM/YYYY h:mm A')}
+									{formatAsDatetime(row[col.key])}
 								{:else if col.key === 'deletedAt'}
 									<span class={row[col.key] ? 'font-bold text-error' : 'font-bold text-success'}>
 										{row[col.key] ? 'DESHABILITADO' : 'HABILITADO'}

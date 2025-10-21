@@ -52,11 +52,14 @@ router
     router
       .group(() => {
         router
+          .post('/', [EmployeeController, 'create'])
+          .use([middleware.auth(), middleware.ability(['root', 'employee:create'])])
+        router
           .get('/', [EmployeeController, 'index'])
           .use([middleware.auth(), middleware.ability(['root', 'employee:index'])])
         router
-          .post('/', [EmployeeController, 'create'])
-          .use([middleware.auth(), middleware.ability(['root', 'employee:create'])])
+          .get('/:id', [EmployeeController, 'show'])
+          .use([middleware.auth(), middleware.ability(['root', 'employee:show'])])
       })
       .prefix('employee')
 
@@ -64,10 +67,7 @@ router
       .group(() => {
         router
           .get('/', [RoleController, 'index'])
-          .use([
-            middleware.auth(),
-            middleware.ability(['root', 'employee:index', 'employee:create']),
-          ])
+          .use([middleware.auth(), middleware.ability(['root', 'role:index', 'employee:create'])])
       })
       .prefix('role')
   })

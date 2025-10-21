@@ -12,6 +12,7 @@
 	import Icon from '@iconify/svelte';
 	import { createForm } from 'felte';
 	import { onMount } from 'svelte';
+	import ErrorScreen from '$lib/components/shared/ErrorScreen.svelte';
 
 	let isLoading = false;
 	let error: string | null = null;
@@ -93,14 +94,16 @@
 <svelte:head>
 	<title>Registro de Empleado | LongDrink</title>
 </svelte:head>
+{#if lockedForm && !isLoading}
+	<ErrorScreen errorMessage={ERROR_MESSAGES.ROLE_LF_EMPLOYEE_C_DISABLED}></ErrorScreen>
+{/if}
 {#if isLoading}
 	<LoadingScreen loadMessage={loadingMessage('formulario')}></LoadingScreen>
-{:else}
+{:else if !isLoading && !lockedForm}
 	<div class="m-0 md:m-5 md:flex md:flex-col md:items-center md:p-5">
 		<div class="card w-full border bg-base-100 shadow-sm md:max-w-5xl">
 			<form class="card-body" use:form>
 				<h2 class="mb-2 text-start text-2xl font-light">Registro de Empleado</h2>
-
 				<div class="cols-span-1 grid w-full md:grid-cols-3 md:gap-2">
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Nombres</legend>
@@ -112,7 +115,6 @@
 							<p class="text-sm text-error">{$errors.names[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Apellido Paterno</legend>
 						<label class="input w-full">
@@ -123,7 +125,6 @@
 							<p class="text-sm text-error">{$errors.paternalSurname[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Apellido Materno</legend>
 						<label class="input w-full">
@@ -134,7 +135,6 @@
 							<p class="text-sm text-error">{$errors.maternalSurname[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Doc. Identidad</legend>
 						<label class="input w-full">
@@ -145,7 +145,6 @@
 							<p class="text-sm text-error">{$errors.citizenId[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Tipo de Doc. Identidad</legend>
 						<label class="input w-full">
@@ -160,7 +159,6 @@
 							<p class="text-sm text-error">{$errors.citizenIdType[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Teléfono</legend>
 						<label class="input w-full">
@@ -171,7 +169,6 @@
 							<p class="text-sm text-error">{$errors.phone[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Dirección</legend>
 						<label class="input w-full md:col-span-2">
@@ -182,7 +179,6 @@
 							<p class="text-sm text-error">{$errors.address[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Fecha de Nacimiento</legend>
 						<label class="input w-full">
@@ -197,7 +193,6 @@
 							</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Fecha de Contratación</legend>
 						<label class="input w-full">
@@ -212,7 +207,6 @@
 							</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Correo Electrónico</legend>
 						<label class="input w-full">
@@ -223,7 +217,6 @@
 							<p class="text-sm text-error">{$errors.email[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Cargo</legend>
 						<label class="input w-full">
@@ -238,7 +231,6 @@
 							<p class="text-sm text-error">{$errors.position[0]}</p>
 						{/if}
 					</fieldset>
-
 					<fieldset class="fieldset">
 						<legend class="fieldset-legend">Rol en Sistema</legend>
 						<label class="input w-full">
@@ -253,7 +245,6 @@
 							<p class="text-sm text-error">{$errors.roleId[0]}</p>
 						{/if}
 					</fieldset>
-
 					<div
 						class={`collapse mt-2 mb-2 border-2 ${
 							(selectedRole?.abilities ?? []).length > 0 ? 'border-secondary' : 'border-error'
@@ -291,25 +282,25 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="card-actions flex flex-col md:flex-row md:justify-end">
 					<button class="btn w-full btn-success md:w-auto" type="submit" disabled={$isSubmitting}>
 						{#if $isSubmitting}
 							<span class="loading loading-lg loading-dots"></span>
-							<span>Guardando...</span>
+							<span>{STRINGS.SAVING_DOTS}</span>
 						{:else}
 							<Icon icon="lucide:save" />
-							<span>Guardar</span>
+							<span>{STRINGS.SAVE}</span>
 						{/if}
 					</button>
 					<button class="btn w-full btn-neutral md:w-auto" type="reset" disabled={$isSubmitting}
-						><Icon icon="lucide:delete" />Limpiar</button
+						><Icon icon="lucide:delete" />{STRINGS.CLEAR}</button
 					>
 					<button
 						class="btn w-full btn-error md:w-auto"
 						type="button"
 						disabled={$isSubmitting}
-						on:click={() => goto('/dashboard/employee')}><Icon icon="lucide:x" />Cancelar</button
+						on:click={() => goto('/dashboard/employee')}
+						><Icon icon="lucide:x" />{STRINGS.CANCEL}</button
 					>
 				</div>
 			</form>

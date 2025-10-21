@@ -7,7 +7,10 @@ export const ERROR_MESSAGES = {
 	ROLE_LF_EMPLOYEE_C_DISABLED:
 		'Falló la carga de roles. El registro de empleados requiere la existencia previa de roles, registre algunos o intente nuevamente.',
 	SERVER_ERROR: 'Ha ocurrido un error en el servidor. Por favor, inténtelo de nuevo más tarde.',
-	ROLE_WITHOUT_ABILITIES: 'El rol seleccionado no tiene permisos asociadas.'
+	ROLE_WITHOUT_ABILITIES: 'El rol seleccionado no tiene permisos asociados.',
+	EMPLOYEE_NOT_FOUND: 'No se encontro el empleado con ID proporcionado.',
+	ROLE_WITHOUT_ABILITIES_UD: 'El rol asignado no cuenta con permisos asociados.',
+	EMPLOYEE_WITHOUT_USER: 'El empleado no posee con una cuenta de usuario asignada.'
 };
 
 export const INFO_MESSAGES = {
@@ -19,7 +22,11 @@ export const INFO_MESSAGES = {
 
 export const STRINGS = {
 	EMAIL_TAKEN: 'El correo electrónico ingresado ya está en uso.',
-	CITIZEN_ID_TAKEN: 'El documento de identidad ingresado ya está en uso.'
+	CITIZEN_ID_TAKEN: 'El documento de identidad ingresado ya está en uso.',
+	SAVE: 'Guardar',
+	SAVING_DOTS: 'Guardando...',
+	CLEAR: 'Limpiar',
+	CANCEL: 'Cancelar'
 };
 
 export const tableElementsMessage = (

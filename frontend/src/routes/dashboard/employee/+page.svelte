@@ -155,10 +155,13 @@
 			<button
 				class="btn join-item btn-primary"
 				title="Detalles"
-				on:click={() => goTo(`/dashboard/employee/detail/${row.id}`)}
+				on:click={() => goTo(`/dashboard/employee/${row.id}`)}
 				><Icon icon="lucide:more-horizontal" class="text-md lg:text-lg" /></button
 			>
-			<button class="btn join-item btn-accent" title="Editar" on:click={() => wip('Editar', row)}
+			<button
+				class="btn join-item btn-accent"
+				title="Editar"
+				on:click={() => goTo(`/dashboard/employee/edit/${row.id}`)}
 				><Icon icon="lucide:edit" class="text-md lg:text-lg" /></button
 			>
 			<button class="btn join-item btn-error" title="Eliminar" on:click={() => wip('Eliminar', row)}

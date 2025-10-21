@@ -62,6 +62,16 @@ class EmployeeService {
 			throw new Error(message);
 		}
 	}
+
+	async fetchEmployee(id: number): Promise<Employee> {
+		try {
+			const res = await api.get(`${this.baseUrl}/${id}`);
+			return res.data as Employee;
+		} catch (error: any) {
+			const message = error.response?.data?.message || 'Error durante la busqueda de empleado.';
+			throw new Error(message);
+		}
+	}
 }
 
 export const employeeService = new EmployeeService();
