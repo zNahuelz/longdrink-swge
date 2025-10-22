@@ -22,7 +22,7 @@
 	let search = '';
 	let status = 'available';
 	const searchBy = writable<'all' | 'id' | 'citizen_id' | 'position' | 'names'>('id');
-
+	//TODO: WIP DISABLING EMPLOYEES AND ACCOUNTS!
 	const columns = [
 		{ key: 'id', label: '#' },
 		{ key: 'names', label: 'NOMBRES' },

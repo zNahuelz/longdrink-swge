@@ -24,3 +24,6 @@ export const DEFAULT_CITIZEN_ID_TYPES = [
 	{ label: 'C.EXT', value: 'C.EXT' },
 	{ label: 'OTRO', value: 'OTRO' }
 ];
+
+export const ERROR_COLOR = '#dc3545';
+export const SUCCESS_COLOR = '#28a745';

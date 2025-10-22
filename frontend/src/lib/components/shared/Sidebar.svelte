@@ -75,6 +75,33 @@
 					<summary
 						class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-primary/50"
 					>
+						<Icon icon="lucide:sheet" class="text-lg leading-none" />
+						<span class="font-medium">Cursos</span>
+					</summary>
+					<ul class="mt-2 ml-6 space-y-1">
+						<li>
+							<button
+								type="button"
+								on:click={() => goTo('/dashboard/course/new')}
+								class="block rounded px-3 py-1 hover:bg-primary/50">Nuevo</button
+							>
+						</li>
+						<li>
+							<button
+								type="button"
+								on:click={() => goTo('/dashboard/course')}
+								class="block rounded px-3 py-1 hover:bg-primary/50">Listado</button
+							>
+						</li>
+					</ul>
+				</details>
+			</li>
+
+			<li>
+				<details>
+					<summary
+						class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-primary/50"
+					>
 						<Icon icon="lucide:book-user" class="text-lg leading-none" />
 						<span class="font-medium">Docentes</span>
 					</summary>

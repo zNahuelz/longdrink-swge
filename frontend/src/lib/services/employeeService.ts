@@ -63,6 +63,24 @@ class EmployeeService {
 		}
 	}
 
+	async updateEmployee(id: number, data: any): Promise<Employee> {
+		try {
+			const res = await api.put(`${this.baseUrl}/${id}`, data);
+			return res.data.employee as Employee;
+		} catch (error: any) {
+			const backendErrors = error.response?.data?.errors;
+			if (Array.isArray(backendErrors)) {
+				const fieldErrors: Record<string, string> = {};
+				backendErrors.forEach((err: any) => {
+					fieldErrors[err.field] = err.message;
+				});
+				throw fieldErrors;
+			}
+			const message = error.response?.data?.message || 'Error al actualizar el empleado.';
+			throw new Error(message);
+		}
+	}
+
 	async fetchEmployee(id: number): Promise<Employee> {
 		try {
 			const res = await api.get(`${this.baseUrl}/${id}`);
